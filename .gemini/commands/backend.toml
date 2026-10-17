@@ -1,0 +1,6 @@
+description = "Build backend + storage from PLAN.md"
+prompt = """
+Read the PLAN.md for project: {{args}}. Build the backend and database layer in workspace/{{args}}/backend.
+Include input validation, auth, parameterized queries, helmet, rate limiting, .env.example, and tests.
+Run the tests and show results.
+"""

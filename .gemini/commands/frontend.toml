@@ -1,0 +1,5 @@
+description = "Build the frontend from PLAN.md"
+prompt = """
+Read the PLAN.md for project: {{args}}. Build the React + Vite frontend in workspace/{{args}}/frontend.
+Responsive, accessible, no dangerouslySetInnerHTML with user data, API base URL from env. Add basic tests.
+"""

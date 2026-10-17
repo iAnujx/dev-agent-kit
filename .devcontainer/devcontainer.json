@@ -1,0 +1,11 @@
+{
+  "name": "dev-agent",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postCreateCommand": "bash scripts/install-tools.sh && git config core.hooksPath .githooks && chmod +x scripts/*.sh .githooks/*",
+  "customizations": {
+    "vscode": {
+      "extensions": ["Google.geminicodeassist", "ms-python.python", "dbaeumer.vscode-eslint"]
+    }
+  },
+  "forwardPorts": [3000, 5173, 8000]
+}

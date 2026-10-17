@@ -1,0 +1,5 @@
+description = "Write and run tests"
+prompt = """
+For workspace/{{args}}: write unit tests for business logic and integration tests for every API route,
+including auth failures and bad input. Run them and fix failures. Report coverage honestly.
+"""

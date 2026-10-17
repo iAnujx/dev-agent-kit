@@ -1,0 +1,9 @@
+description = "Run all scanners and fix findings until clean"
+prompt = """
+Run: bash scripts/security-check.sh workspace/{{args}}
+Read every finding. For each: explain it in one line, fix it in code, and re-run.
+Repeat until the script passes or only issues you cannot fix remain.
+Then review the code manually against OWASP Top 10 (injection, broken access control, auth flaws,
+misconfiguration, XSS, SSRF, insecure deserialization, vulnerable components, logging gaps)
+and list anything the scanners cannot catch. Output a table: issue | file | severity | status.
+"""

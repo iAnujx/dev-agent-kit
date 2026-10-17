@@ -1,0 +1,7 @@
+description = "Turn an idea into a spec, file tree, data model and task list"
+prompt = """
+Act as a software architect. Idea: {{args}}
+Create workspace/<short-name>/PLAN.md containing: goals, user stories, tech stack, folder tree,
+data model (tables/fields), API routes with auth requirements, threat model (top 5 risks),
+and an ordered task checklist. Do not write app code yet. Ask me to approve the plan.
+"""

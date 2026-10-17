@@ -1,0 +1,6 @@
+description = "Full pipeline: plan, build, test, secure"
+prompt = """
+Build this end to end: {{args}}
+Follow GEMINI.md workflow: PLAN.md first, then backend, storage, frontend, tests, then the security
+check loop. Stop and ask me only for the plan approval and for destructive actions. End with a report.
+"""

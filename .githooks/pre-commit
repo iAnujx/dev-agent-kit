@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Blocks commits that contain secrets. Enabled by: git config core.hooksPath .githooks
+export PATH="$HOME/.local/bin:$PATH"
+if command -v gitleaks >/dev/null; then
+  gitleaks protect --staged --no-banner --redact || { echo "Commit blocked: secret detected."; exit 1; }
+fi
