@@ -4,6 +4,9 @@
 export PATH="$HOME/.local/bin:$PATH"
 TARGET="${1:-.}"
 FAIL=0
+if [ -d "$TARGET" ] && [ -z "$(find "$TARGET" -type f ! -name .gitkeep -print -quit)" ]; then
+  echo "Nothing to scan in $TARGET (empty). Build something first."; exit 0
+fi
 run() { # name, command...
   local name="$1"; shift
   echo; echo "=== $name ==="
@@ -13,10 +16,14 @@ run() { # name, command...
 
 run "Secrets (gitleaks)"        gitleaks detect --source "$TARGET" --no-git --no-banner --redact
 run "SAST (semgrep)"            semgrep scan --config auto --error --quiet "$TARGET"
-run "Dependencies (osv-scanner)" osv-scanner scan -r "$TARGET"
+if [ -n "$(find "$TARGET" \( -name package-lock.json -o -name yarn.lock -o -name pnpm-lock.yaml -o -name requirements.txt -o -name poetry.lock -o -name go.sum -o -name Cargo.lock \) -not -path '*/node_modules/*' -print -quit)" ]; then
+  run "Dependencies (osv-scanner)" osv-scanner scan -r "$TARGET"
+else
+  echo; echo "=== Dependencies (osv-scanner) ==="; echo "SKIP: no lockfile/manifest found (npm install first to create package-lock.json)"
+fi
 run "Containers/IaC (trivy)"    trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --quiet "$TARGET"
 
-if [ -f "$TARGET/package.json" ]; then
+if [ -f "$TARGET/package.json" ] && [ -f "$TARGET/package-lock.json" ]; then
   echo; echo "=== npm audit ==="
   (cd "$TARGET" && npm audit --audit-level=high) && echo "PASS: npm audit" || { echo "FAIL: npm audit"; FAIL=1; }
 fi
@@ -26,4 +33,4 @@ if ls "$TARGET"/requirements*.txt >/dev/null 2>&1; then
 fi
 
 echo; [ $FAIL -eq 0 ] && echo "ALL CHECKS PASSED" || echo "SECURITY CHECK FAILED - fix findings above"
-exit $FAIL
+exit $FAIL~
