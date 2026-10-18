@@ -7,7 +7,8 @@ echo "== Gemini CLI =="
 npm install -g @google/gemini-cli || echo "gemini-cli install failed (check npm)"
 
 echo "== Python scanners + agent deps =="
-pip install --quiet --user semgrep pip-audit bandit google-genai python-dotenv
+pip install --quiet --user pip-audit bandit google-genai python-dotenv
+pip install --quiet --user pipx && pipx install --force "semgrep==1.130.0" && pipx inject --force semgrep "setuptools<81"
 
 echo "== Gitleaks =="
 if ! command -v gitleaks >/dev/null; then
