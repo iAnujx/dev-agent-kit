@@ -21,7 +21,7 @@ if [ -n "$(find "$TARGET" \( -name package-lock.json -o -name yarn.lock -o -name
 else
   echo; echo "=== Dependencies (osv-scanner) ==="; echo "SKIP: no lockfile/manifest found (npm install first to create package-lock.json)"
 fi
-run "Containers/IaC (trivy)"    trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --quiet "$TARGET"
+run "Containers/IaC (trivy)"    trivy fs --skip-dirs '**/node_modules' --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --quiet "$TARGET"
 
 if [ -f "$TARGET/package.json" ] && [ -f "$TARGET/package-lock.json" ]; then
   echo; echo "=== npm audit ==="
