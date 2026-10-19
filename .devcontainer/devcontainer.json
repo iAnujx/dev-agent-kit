@@ -1,10 +1,14 @@
 {
   "name": "dev-agent",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
   "postCreateCommand": "bash scripts/install-tools.sh && git config core.hooksPath .githooks && chmod +x scripts/*.sh .githooks/*",
   "customizations": {
     "vscode": {
-      "extensions": ["Google.geminicodeassist", "ms-python.python", "dbaeumer.vscode-eslint"]
+      "extensions": ["ms-python.python", "dbaeumer.vscode-eslint"]
     }
   },
   "forwardPorts": [3000, 5173, 8000]
